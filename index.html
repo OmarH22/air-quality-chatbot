@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Air Quality Chatbot</title>
+    <link rel="stylesheet" href="static/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <h3>History</h3>
+        <div id="chat-history"></div>
+      </div>
+
+      <div class="main">
+        <h2>Air Quality Chatbot</h2>
+
+        <div class="form-group">
+          <label for="temperature">Temperature (°C)</label>
+          <input
+            type="number"
+            id="temperature"
+            step="0.1"
+            min="0"
+            max="60"
+            placeholder="e.g., 25.5"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="humidity">Humidity (%)</label>
+          <input
+            type="number"
+            id="humidity"
+            step="0.1"
+            min="0"
+            max="150"
+            placeholder="e.g., 65.0"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="pm25">PM2.5 (µg/m³)</label>
+          <input
+            type="number"
+            id="pm25"
+            step="0.1"
+            min="0"
+            max="300"
+            placeholder="e.g., 10.2"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="pm10">PM10 (µg/m³)</label>
+          <input
+            type="number"
+            id="pm10"
+            step="0.1"
+            min="-10"
+            max="300"
+            placeholder="e.g., 20.5"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="no2">NO2 (µg/m³)</label>
+          <input
+            type="number"
+            id="no2"
+            step="0.1"
+            min="0"
+            max="100"
+            placeholder="e.g., 15.7"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="so2">SO2 (µg/m³)</label>
+          <input
+            type="number"
+            id="so2"
+            step="0.1"
+            min="-10"
+            max="50"
+            placeholder="e.g., 5.3"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="co">CO (mg/m³)</label>
+          <input
+            type="number"
+            id="co"
+            step="0.01"
+            min="0"
+            max="5"
+            placeholder="e.g., 1.2"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="proximity">Proximity to Industrial Areas (km)</label>
+          <input
+            type="number"
+            id="proximity"
+            step="0.1"
+            min="0"
+            max="30"
+            placeholder="e.g., 5.0"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="population">Population Density (people/km²)</label>
+          <input
+            type="number"
+            id="population"
+            step="1"
+            min="0"
+            max="1000"
+            placeholder="e.g., 500"
+          />
+        </div>
+
+        <button onclick="sendMessage()">Predict Air Quality</button>
+
+        <div class="response-box" id="response"></div>
+      </div>
+    </div>
+
+    <script>
+      async function sendMessage() {
+        const temperature = document.getElementById("temperature").value;
+        const humidity = document.getElementById("humidity").value;
+        const pm25 = document.getElementById("pm25").value;
+        const pm10 = document.getElementById("pm10").value;
+        const no2 = document.getElementById("no2").value;
+        const so2 = document.getElementById("so2").value;
+        const co = document.getElementById("co").value;
+        const proximity = document.getElementById("proximity").value;
+        const population = document.getElementById("population").value;
+
+        // Validate all inputs are filled
+        if (
+          !temperature ||
+          !humidity ||
+          !pm25 ||
+          !pm10 ||
+          !no2 ||
+          !so2 ||
+          !co ||
+          !proximity ||
+          !population
+        ) {
+          document.getElementById("response").innerHTML =
+            "<strong>Please fill in all fields.</strong>";
+          return;
+        }
+
+        const payload = {
+          temperature: parseFloat(temperature),
+          humidity: parseFloat(humidity),
+          pm25: parseFloat(pm25),
+          pm10: parseFloat(pm10),
+          no2: parseFloat(no2),
+          so2: parseFloat(so2),
+          co: parseFloat(co),
+          proximity: parseFloat(proximity),
+          population: parseFloat(population),
+        };
+
+        try {
+          const res = await fetch("/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (!res.ok) {
+            throw new Error("Backend error");
+          }
+
+          const data = await res.json();
+          const airQuality = data.response || "Unknown";
+
+          const responseText = `Predicted Air Quality: ${airQuality}`;
+          document.getElementById(
+            "response"
+          ).innerHTML = `<strong>${responseText}</strong>`;
+
+          const historyMsg = `Temp: ${temperature}°C, Humidity: ${humidity}%, PM2.5: ${pm25} µg/m³, PM10: ${pm10} µg/m³, NO2: ${no2} µg/m³, SO2: ${so2} µg/m³, CO: ${co} mg/m³, Proximity: ${proximity} km, Population: ${population} people/km² → ${responseText}`;
+          document.getElementById(
+            "chat-history"
+          ).innerHTML += `<div class='history-item'>${historyMsg}</div>`;
+        } catch (error) {
+          document.getElementById("response").innerHTML =
+            "<strong>Error predicting air quality. Please try again.</strong>";
+        }
+      }
+    </script>
+  </body>
+</html>

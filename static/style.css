@@ -1,0 +1,185 @@
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.container {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #252525;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  height: fit-content;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  color: #00aaff;
+  font-size: 1.5em;
+  border-bottom: 2px solid #00aaff;
+  padding-bottom: 10px;
+}
+
+#chat-history {
+  max-height: 500px;
+  overflow-y: auto;
+  font-size: 0.9em;
+}
+
+.history-item {
+  background-color: #333333;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.history-item:hover {
+  background-color: #444444;
+}
+
+.main {
+  flex: 1;
+  background-color: #252525;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.main h2 {
+  color: #00aaff;
+  margin-top: 0;
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #cccccc;
+}
+
+.form-group select,
+.form-group input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #333333;
+  color: #e0e0e0;
+  border: 1px solid #444444;
+  border-radius: 8px;
+  font-size: 1em;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.form-group select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.form-group input[type="number"]::-webkit-inner-spin-button,
+.form-group input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+.form-group select:focus,
+.form-group input[type="number"]:focus {
+  outline: none;
+  border-color: #00aaff;
+  background-color: #3a3a3a;
+}
+
+.form-group select:hover,
+.form-group input[type="number"]:hover {
+  border-color: #00aaff;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background-color: #00aaff;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+  background-color: #0088cc;
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.response-box {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #333333;
+  border-radius: 8px;
+  min-height: 60px;
+  font-size: 1em;
+  color: #e0e0e0;
+}
+
+.response-box strong {
+  color: #00aaff;
+}
+
+/* Scrollbar styling for history */
+#chat-history::-webkit-scrollbar {
+  width: 8px;
+}
+
+#chat-history::-webkit-scrollbar-track {
+  background: #333333;
+  border-radius: 4px;
+}
+
+#chat-history::-webkit-scrollbar-thumb {
+  background: #00aaff;
+  border-radius: 4px;
+}
+
+#chat-history::-webkit-scrollbar-thumb:hover {
+  background: #0088cc;
+}
+
+/* Responsive design */
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-height: 300px;
+  }
+
+  .main {
+    width: 100%;
+  }
+}
